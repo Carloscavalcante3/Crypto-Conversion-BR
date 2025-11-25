@@ -18,14 +18,10 @@ def get_carteira_service() -> CarteiraService:
 def criar_carteira(
     service: CarteiraService = Depends(get_carteira_service),
 )->CarteiraCriada:
-    """
-    Cria uma nova carteira. O body é opcional .
-    Retorna endereço e chave privada (apenas nesta resposta).
-    """
     try:
         return service.criar_carteira()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Erro ao criar carteira: " + str(e))
 
 
 @router.get("", response_model=List[Carteira])

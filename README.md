@@ -1,175 +1,70 @@
+# Carteira Digital Crypto Conversion BR 🪙
 
-# Projeto Carteira Digital 🪙
+**Projeto de Implementação de uma API de Carteira Digital** para a disciplina Projeto Banco de Dados, focada em segurança, uso de SQL puro e integração com serviços externos.
 
-Este projeto é um *template* inicial para implementar uma **API de Carteira Digital** 
-na disciplina Projeto Banco de Dados:
+## 👥 Equipe
 
-- **FastAPI**
-- **MySQL**
-- **SQLAlchemy (Core, sem ORM)**
-- **SQL puro para DDL/DML**
-- Integração com API pública da **Coinbase** para conversão de moedas
+| Nome  | GitHub |
+|-------|--------|
+| Carlos Cavalcante | [@Carloscavalcante3](https://github.com/Carloscavalcante3) |
+| Gustavo Lino | [@GustavoLino728](https://github.com/GustavoLino728) |
+| Luiz Henrique Cavalcanti | [@lhickk17](https://github.com/lhickk17) |
+| Nathalia Carvalho Pascoal | [@nathaliacarvalhop](https://github.com/nathaliacarvalhop) |
+| Maria Eduarda Pernambuco | [@mariaeduardapernambuco](https://github.com/mariaeduardapernambuco) |
 
-A carteira permite:
+## 🏗️ Arquitetura do Projeto
+A solução segue um modelo de três camadas focado em modularidade e requisitos não funcionais do projeto:
 
-- Criar carteiras (com chave pública e chave privada)
-- Ver saldos por moeda (BTC, ETH, SOL, USD)
-- Fazer **depósitos**
-- Fazer **saques** (com taxa e validação da chave privada)
-- Fazer **conversão entre moedas** (usando cotação da Coinbase)
-- Fazer **transferência entre carteiras**
+* **API (FastAPI):** Lógica de roteamento e *endpoints* RESTful.
+* **Service Layer:** Lógica de negócio e regras de validação (ex: saldo suficiente, hash de chave privada).
+* **Persistence Layer:** Repositórios que utilizam **SQLAlchemy Core** para comunicação direta via **SQL Puro** com o banco de dados.
+
+## 🛠️ Tecnologias Utilizadas
+
+* **Linguagem:** **Python 3**
+* **Framework:** **FastAPI** (para API RESTful)
+* **Servidor:** **Uvicorn**
+* **Banco de Dados:** **PostgreSQL** (Adaptado do MySQL original)
+* **Acesso a Dados:** **SQLAlchemy Core** + **SQL Puro**
+* **Segurança:** Módulos `secrets` e `hashlib` para geração e *hashing* de chaves.
+
+## 🎯 Status do Projeto
+
+### Sprint 1  ✅
+
+Todo o ambiente de desenvolvimento e infraestrutura base foram configurados e validados.
+
+### 📝Entregáveis da Sprint 1
+
+| Requisito | Status | Prova de Conclusão (Base) |
+| :--- | :--- | :--- |
+| **Ambiente DB (PostgreSQL)** | OK | Base `wallet_homolog` e usuário restrito `wallet_api_homolog` criados. |
+| **Configuração** | OK | Arquivo `.env` configurado com credenciais de acesso ao PostgreSQL na porta 5432. |
+| **Estrutura API (FastAPI)** | OK | Estrutura de módulos (`api/main.py`, `/routers`, `/services`, `/persistence`) pronta. |
+| **API em Execução** | OK | Uvicorn inicia sem erros de importação ou conexão inicial. |
+| **Endpoint de Teste** | OK | Acesso à rota `/` retorna `{"message": "API rodando com sucesso!"}`. |
 
 ---
 
-## 1. Pré-requisitos
+## Detalhes da Infraestrutura Utilizada
 
-Antes de começar, você precisa ter instalado no seu computador:
+| Componente | Tecnologia | Configuração |
+| :--- | :--- | :--- |
+| **Servidor API** | FastAPI + Uvicorn | Python 3.10+ |
+| **Banco de Dados** | **PostgreSQL** (Adaptado do MySQL original) | Conexão via `psycopg2-binary` e SQLAlchemy Core. |
+| **Acesso a Dados** | Repositórios com **SQL Puro** | Usuário de banco de dados restrito (apenas DML). |
 
-- Python 3.10+
-- MySQL 8+
-- git (opcional)
+---
 
-Verifique as versões:
+## 🚀 Como Executar (A partir da Raiz do Projeto)
+
+### 1. Pré-requisitos
+
+O **PostgreSQL** deve estar instalado e o banco `wallet_homolog` com o usuário `wallet_api_homolog` devem estar criados e com as tabelas **`CARTEIRA`**, **`MOEDA`** e **`SALDO_CARTEIRA`** inicializadas (Mini-Sprint 2 - DDL).
+
+### 2. Inicie o Servidor
+
+Abra o terminal, ative o `venv` e execute o seguinte comando:
 
 ```bash
-python --version
-mysql --version
-```
-
----
-
-## 2. Clonar ou baixar o projeto
-
-```bash
-git clone https://github.com/timotrob/WalletDb_v2.git
-cd projeto_carteira_digital
-```
-
-Ou extraia o ZIP e abra o terminal dentro da pasta do projeto.
-
----
-
-## 3. Criar e ativar o ambiente virtual (venv)
-
-### Windows:
-```bash
-python -m venv venv
-.env\Scripts\Activate
-```
-
-### Linux/Mac:
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
----
-
-## 4. Instalar dependências
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 5. Criar o banco e usuário no MySQL
-
-Execute:
-
-```sql
-SOURCE /sql/DDL_Carteira_Digital.sql;
-```
-
-Isso irá:
-
-- Criar o banco `wallet_homolog`
-- Criar usuário restrito `wallet_api_homolog`
-A Criação das tabelas não está incluindo,
-deve ser gerado pelo aluno.
-
----
-
-## 6. Criar o arquivo `.env`
-
-Crie o arquivo `.env` na raiz do projeto:
-
-```env
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=wallet_api_homolog
-DB_PASSWORD=????
-DB_NAME=wallet_homolog
-TAXA_SAQUE_PERCENTUAL=0.01
-TAXA_CONVERSAO_PERCENTUAL=0.02
-TAXA_TRANSFERENCIA_PERCENTUAL=0.01
-PRIVATE_KEY_SIZE=32
-PUBLIC_KEY_SIZE=16
-```
-
----
-
-## 7. Estrutura do projeto
-
-```
-projeto_carteira_digital/
-│
-├── api/
-│   ├── main.py
-│   ├── models/
-│   ├── routers/
-│   ├── services/
-│   └── persistence/
-│       │── repositories/
-│       └── db.py
-│
-├── sql/DDL_Carteira_Digital.sql
-├── requirements.txt
-└── .env
-```
-
----
-
-## 8. Subir a API
-
-```bash
-uvicorn api.main:app --reload
-```
-
-Acesse:
-
-👉 http://127.0.0.1:8000/docs
-
----
-
-## 9. Testes básicos
-
-### Criar carteira:
-POST /carteiras
-
-### Ver saldo:
-GET /carteiras/{endereco}/saldos
-
-### Depósito:
-POST /carteiras/{endereco}/depositos
-
-### Saque:
-POST /carteiras/{endereco}/saques
-
-### Conversão:
-POST /carteiras/{endereco}/conversoes
-
-### Transferência:
-POST /carteiras/{endereco_origem}/transferencias
-
----
-
-## 10. Problemas comuns
-
-- Banco não encontrado → conferir `.env`
-- MySQL parado → iniciar serviço
-- ImportError → verificar `__init__.py`
-
----
-
-## 11. Boa implementação! 🚀
+python -m uvicorn api.main:app --reload

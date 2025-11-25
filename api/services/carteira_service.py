@@ -10,8 +10,7 @@ class CarteiraService:
 
     def criar_carteira(self) -> CarteiraCriada:
         row = self.carteira_repo.criar()
-        # row tem: endereco_carteira, data_criacao, status, hash_chave_privada, chave_privada
-        # não expomos o hash
+        
         return CarteiraCriada(
             endereco_carteira=row["endereco_carteira"],
             data_criacao=row["data_criacao"],
@@ -23,7 +22,6 @@ class CarteiraService:
         row = self.carteira_repo.buscar_por_endereco(endereco_carteira)
         if not row:
             raise ValueError("Carteira não encontrada")
-
         return Carteira(
             endereco_carteira=row["endereco_carteira"],
             data_criacao=row["data_criacao"],

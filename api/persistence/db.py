@@ -20,7 +20,7 @@ def get_database_url() -> str:
     db = os.getenv("DB_NAME")
 
     if not all([user, password, db]):
-        raise RuntimeError("Variáveis de ambiente do banco não configuradas corretamente.")
+        raise RuntimeError("Variáveis de ambiente do banco não configuradas.")
 
     return f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}"
 
@@ -44,8 +44,7 @@ def get_connection() -> Generator[Connection, None, None]:
     try:
         yield conn
         trans.commit()
-    except Exception as e:
-        print(f"Erro na transação. Fazendo rollback: {e}")
+    except Exception:
         trans.rollback()
         raise
     finally:
