@@ -7,7 +7,6 @@
 | Nome  | GitHub |
 |-------|--------|
 | Carlos Cavalcante | [@Carloscavalcante3](https://github.com/Carloscavalcante3) |
-| Gustavo Lino | [@GustavoLino728](https://github.com/GustavoLino728) |
 | Luiz Henrique Cavalcanti | [@lhickk17](https://github.com/lhickk17) |
 | Nathalia Carvalho Pascoal | [@nathaliacarvalhop](https://github.com/nathaliacarvalhop) |
 | Maria Eduarda Pernambuco | [@mariaeduardapernambuco](https://github.com/mariaeduardapernambuco) |
