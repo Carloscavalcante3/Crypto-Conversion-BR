@@ -18,4 +18,4 @@ app = create_app()
 
 @app.get("/") 
 def read_root():
-    return {"message": "API rodando com sucesso!"}
+    return {"mensagem": "API rodando com sucesso!"}

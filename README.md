@@ -1,70 +1,103 @@
-# Carteira Digital Crypto Conversion BR 🪙
+# Carteira Digital Crypto Conversion BR
 
-**Projeto de Implementação de uma API de Carteira Digital** para a disciplina Projeto Banco de Dados, focada em segurança, uso de SQL puro e integração com serviços externos.
+![GitHub repo size](https://img.shields.io/github/repo-size/Carloscavalcante3/Crypto-Conversion-BR)
+![GitHub contributors](https://img.shields.io/github/contributors/Carloscavalcante3/Crypto-Conversion-BR)
+![GitHub stars](https://img.shields.io/github/stars/Carloscavalcante3/Crypto-Conversion-BR?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Carloscavalcante3/Crypto-Conversion-BR?style=social)
+
+**Carteira Digital Crypto Conversion BR** é uma API RESTful completa que permite realizar operações financeiras multi-moeda, incluindo depósitos, saques, transferências e conversões via API externa (Coinbase). O projeto foi construído com arquitetura em **Três Camadas**, uso obrigatório de **SQL Puro** e banco **PostgreSQL**, garantindo segurança, organização e aderência total aos requisitos funcionais.
+
+A solução foi desenvolvida em cinco mini-sprints, cobrindo 100% das regras do sistema de carteira digital.
+
+---
+
 
 ## 👥 Equipe
 
 | Nome  | GitHub |
 |-------|--------|
 | Carlos Cavalcante | [@Carloscavalcante3](https://github.com/Carloscavalcante3) |
-| Gustavo Lino | [@GustavoLino728](https://github.com/GustavoLino728) |
 | Luiz Henrique Cavalcanti | [@lhickk17](https://github.com/lhickk17) |
 | Nathalia Carvalho Pascoal | [@nathaliacarvalhop](https://github.com/nathaliacarvalhop) |
 | Maria Eduarda Pernambuco | [@mariaeduardapernambuco](https://github.com/mariaeduardapernambuco) |
 
-## 🏗️ Arquitetura do Projeto
-A solução segue um modelo de três camadas focado em modularidade e requisitos não funcionais do projeto:
+---
 
-* **API (FastAPI):** Lógica de roteamento e *endpoints* RESTful.
-* **Service Layer:** Lógica de negócio e regras de validação (ex: saldo suficiente, hash de chave privada).
-* **Persistence Layer:** Repositórios que utilizam **SQLAlchemy Core** para comunicação direta via **SQL Puro** com o banco de dados.
 
-## 🛠️ Tecnologias Utilizadas
+## 🔧 Pré-requisitos
 
-* **Linguagem:** **Python 3**
-* **Framework:** **FastAPI** (para API RESTful)
-* **Servidor:** **Uvicorn**
-* **Banco de Dados:** **PostgreSQL** (Adaptado do MySQL original)
-* **Acesso a Dados:** **SQLAlchemy Core** + **SQL Puro**
-* **Segurança:** Módulos `secrets` e `hashlib` para geração e *hashing* de chaves.
+Antes de começar, certifique-se de que você atendeu aos seguintes requisitos:
 
-## 🎯 Status do Projeto
-
-### Sprint 1  ✅
-
-Todo o ambiente de desenvolvimento e infraestrutura base foram configurados e validados.
-
-### 📝Entregáveis da Sprint 1
-
-| Requisito | Status | Prova de Conclusão (Base) |
-| :--- | :--- | :--- |
-| **Ambiente DB (PostgreSQL)** | OK | Base `wallet_homolog` e usuário restrito `wallet_api_homolog` criados. |
-| **Configuração** | OK | Arquivo `.env` configurado com credenciais de acesso ao PostgreSQL na porta 5432. |
-| **Estrutura API (FastAPI)** | OK | Estrutura de módulos (`api/main.py`, `/routers`, `/services`, `/persistence`) pronta. |
-| **API em Execução** | OK | Uvicorn inicia sem erros de importação ou conexão inicial. |
-| **Endpoint de Teste** | OK | Acesso à rota `/` retorna `{"message": "API rodando com sucesso!"}`. |
+- Python **3.10+** instalado
+- Servidor **PostgreSQL** rodando (porta 5432)
+- Git instalado
+- Leitura do arquivo `sql/DDL_Carteira_Digital.sql`
 
 ---
 
-## Detalhes da Infraestrutura Utilizada
+## 📦 Instalação — Carteira Digital Crypto Conversion BR
 
-| Componente | Tecnologia | Configuração |
-| :--- | :--- | :--- |
-| **Servidor API** | FastAPI + Uvicorn | Python 3.10+ |
-| **Banco de Dados** | **PostgreSQL** (Adaptado do MySQL original) | Conexão via `psycopg2-binary` e SQLAlchemy Core. |
-| **Acesso a Dados** | Repositórios com **SQL Puro** | Usuário de banco de dados restrito (apenas DML). |
+### Linux e macOS:
+```bash
+git clone https://github.com/Carloscavalcante3/Crypto-Conversion-BR.git
+cd Crypto-Conversion-BR
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Windows:
+```bash
+git clone https://github.com/Carloscavalcante3/Crypto-Conversion-BR.git
+cd Crypto-Conversion-BR
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+```
 
 ---
 
-## 🚀 Como Executar (A partir da Raiz do Projeto)
+## 🚀 Usando o projeto
 
-### 1. Pré-requisitos
+### 1️⃣ Configure o Banco de Dados
+Execute no pgAdmin ou outro cliente SQL:
+```
+sql/DDL_Carteira_Digital.sql
+```
 
-O **PostgreSQL** deve estar instalado e o banco `wallet_homolog` com o usuário `wallet_api_homolog` devem estar criados e com as tabelas **`CARTEIRA`**, **`MOEDA`** e **`SALDO_CARTEIRA`** inicializadas (Mini-Sprint 2 - DDL).
+### 2️⃣ Configure o arquivo `.env`
+```
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=seu_usuario
+DB_PASSWORD=sua_senha
+DB_NAME=carteira_digital
+```
 
-### 2. Inicie o Servidor
-
-Abra o terminal, ative o `venv` e execute o seguinte comando:
-
+### 3️⃣ Inicie o servidor
 ```bash
 python -m uvicorn api.main:app --reload
+```
+
+### 4️⃣ Acesse a documentação:
+```
+http://127.0.0.1:8000/docs
+```
+
+Todas as operações podem ser testadas, incluindo:
+- Criação de carteiras
+- Depósitos
+- Saques (taxa 1%)
+- Conversões (taxa 2% via Coinbase)
+- Transferências (taxa 1%)
+
+---
+
+## 📋 Arquitetura do Projeto
+
+| Camada | Função | Tecnologia |
+|-------|--------|------------|
+| API/Roteamento | Endpoints REST | FastAPI / Uvicorn |
+| Serviço | Regras de Negócio, Coinbase, Validações | Python + httpx |
+| Persistência | SQL Puro via SQLAlchemy Core | SQLAlchemy Core |
+| Banco | Armazenamento | PostgreSQL |
