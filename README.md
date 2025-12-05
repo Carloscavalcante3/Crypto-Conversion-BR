@@ -7,7 +7,6 @@
 
 **Carteira Digital Crypto Conversion BR** é uma API RESTful completa que permite realizar operações financeiras multi-moeda, incluindo depósitos, saques, transferências e conversões via API externa (Coinbase). O projeto foi construído com arquitetura em **Três Camadas**, uso obrigatório de **SQL Puro** e banco **PostgreSQL**, garantindo segurança, organização e aderência total aos requisitos funcionais.
 
-A solução foi desenvolvida em cinco mini-sprints, cobrindo 100% das regras do sistema de carteira digital.
 
 ---
 
